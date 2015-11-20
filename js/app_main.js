@@ -33,6 +33,32 @@
     var Instagramm = Backbone.Collection.extend({
         model: Instblock
     });
+    /** Вид главной страницы */
+    var InstblockMain = Backbone.View.extend({
+        tagName: "div",
+        className: "main",
+        template_main: _.template($("#instaMainTemplate").html()),
+        template_photos_top: _.template($(".top_bg").html()),
+        template_photos_left: _.template($(".left_bg").html()),
+        template_photos_bot: _.template($(".bot_bg").html()),
+
+        render_main: function () {
+            this.$el.html(this.template_main(this.model.toJSON()));
+            return this;
+        },
+        render_top: function () {
+            this.$el.html(this.template_photos_top(this.model.toJSON()));
+            return this;
+        },
+        render_left: function () {
+            this.$el.html(this.template_photos_left(this.model.toJSON()));
+            return this;
+        },
+        render_bot: function () {
+            this.$el.html(this.template_photos_bot(this.model.toJSON()));
+            return this;
+        }
+    });
 
     var InstblockView = Backbone.View.extend({
         tagName: "div",
@@ -145,6 +171,17 @@
                         }
                     };
                 })(this), 300));
+            }
+        },
+
+
+        /** Отрисовка главной страницы
+         *
+         *  Отрисовка блоков картинок
+         * */
+        renderMainImages: function(){
+            for(i = 0; i < 8; i++){
+                safsdf
             }
         }
     });
