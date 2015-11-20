@@ -1,12 +1,11 @@
 (function ($) {
-    var inst, directory, instaRouter;
-
     /** Заполняем массив с временными картинками */
     var tempIndexImages = [];
-    for (i = 0; i <= 21; i++){
+    for (var i = 1; i <= 19; i++){
         tempIndexImages.push("/promo/instagram/images/" + i + ".jpg");
     }
-    console.log(tempIndexImages);
+
+    var inst, directory, instaRouter;
 
     $.ajax({
         type:"GET",
@@ -33,14 +32,15 @@
     var Instagramm = Backbone.Collection.extend({
         model: Instblock
     });
+
     /** Вид главной страницы */
     var InstblockMain = Backbone.View.extend({
         tagName: "div",
         className: "main",
         template_main: _.template($("#instaMainTemplate").html()),
-        template_photos_top: _.template($(".top_bg").html()),
-        template_photos_left: _.template($(".left_bg").html()),
-        template_photos_bot: _.template($(".bot_bg").html()),
+        template_photos_top: _.template($("#instaMainTemplate .top_bg").html()),
+        template_photos_left: _.template($("#instaMainTemplate .left_bg").html()),
+        template_photos_bot: _.template($("#instaMainTemplate .bot_bg").html()),
 
         render_main: function () {
             this.$el.html(this.template_main(this.model.toJSON()));
@@ -180,16 +180,27 @@
          *  Отрисовка блоков картинок
          * */
         renderMainImages: function(){
-            for(i = 0; i < 8; i++){
-                safsdf
+            console.log(tempIndexImages);
+            this.$el.empty();
+            for(var i = 1; i <= 8; i++){
+                var item = new Instblock({THUMB: tempIndexImages[i]}) ;
+                var instblockMain = new InstblockMain({
+                    model: item
+                });
+                this.$el.append(instblockMain.render_top().el);
             }
         }
     });
 
     var InstaRout = Backbone.Router.extend({
         routes: {
-            "feed":"urlFeed",
+            "": "urlMain",
+            "feed": "urlFeed",
             "list": "urlList"
+        },
+
+        urlMain: function(){
+            directory.renderMainImages();
         },
 
         urlFeed: function(){
