@@ -1,0 +1,36 @@
+.main_content {
+    padding: 0 !important;
+}
+.inst_content #more {
+    bottom: 8px;
+    margin-left: 80px;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 20px;
+    padding: 3px 15px;
+}
+.inst_content {
+    width: 1100px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+.inst_content .photo {
+    width: 25%;
+    text-align: center;
+}
+.inst_content .username {
+    margin: 7px 0 25px;
+    font: 16px "Segoe UI";
+    padding-right: 33px;
+    display: block;
+}
+.inst_content .likes {
+    float: right;
+}
+.inst_content .user {
+    display: block;
+    flex: 1 100%;
+    font: 18px "Segoe UI";
+    margin-bottom: 15px;
+}
