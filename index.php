@@ -10,9 +10,6 @@ $APPLICATION->SetAdditionalCSS("/promo/instagram/css/styles.css");
 
 <script id="instaMainTemplate" type="text/template">
     <div class="main_wrap">
-        <div class="top_bg"><%= THUMB %></div>
-        <div class="left_bg"><%= THUMB %></div>
-        <div class="bot_bg"><%= THUMB %></div>
         <div class="tasks"></div>
         <div class="leaderboard"></div>
     </div>

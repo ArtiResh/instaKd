@@ -36,26 +36,22 @@
     /** Вид главной страницы */
     var InstblockMain = Backbone.View.extend({
         tagName: "div",
-        className: "main",
-        template_main: _.template($("#instaMainTemplate").html()),
-        template_photos_top: _.template($("#instaMainTemplate .top_bg").html()),
-        template_photos_left: _.template($("#instaMainTemplate .left_bg").html()),
-        template_photos_bot: _.template($("#instaMainTemplate .bot_bg").html()),
+        className: "main_wrap",
+        template: _.template($("#instaMainTemplate").empty().html()),
 
         render_main: function () {
-            this.$el.html(this.template_main(this.model.toJSON()));
+            this.$el.html(this.template(this.model.toJSON()));
             return this;
-        },
-        render_top: function () {
-            this.$el.html(this.template_photos_top(this.model.toJSON()));
-            return this;
-        },
-        render_left: function () {
-            this.$el.html(this.template_photos_left(this.model.toJSON()));
-            return this;
-        },
-        render_bot: function () {
-            this.$el.html(this.template_photos_bot(this.model.toJSON()));
+        }
+    });
+    /** Вид фотографий для главной */
+    var InstblockMainPhotos = Backbone.View.extend({
+        tagName: "div",
+        className: "main_photo",
+        template: _.template($(".main_wrap").empty().html()),
+
+        render_main_photos: function () {
+            this.$el.html(this.template(this.model.toJSON()));
             return this;
         }
     });
@@ -63,7 +59,7 @@
     var InstblockView = Backbone.View.extend({
         tagName: "div",
         className: "photo",
-        template: _.template($("#instaFeedTemplate").html()),
+        template: _.template($("#instaFeedTemplate").empty().html()),
 
         render: function () {
             this.$el.html(this.template(this.model.toJSON()));
@@ -74,7 +70,7 @@
     var InstblockUsers = Backbone.View.extend({
         tagName: "div",
         className: "user",
-        template: _.template($("#instaUsersList").html()),
+        template: _.template($("#instaUsersList").empty().html()),
 
         render: function () {
             this.$el.html(this.template(this.model.toJSON()));
@@ -101,7 +97,7 @@
         },
 
         renderFeed: function() {
-            this.$el.empty();
+            //this.$el.empty();
             var i = 0;
             _.each(this.collection.models, function (item) {
                 if(i < 20){
@@ -120,7 +116,6 @@
         },
 
         renderUser: function(item) {
-            console.log(item);
             var instblockUsers = new InstblockUsers({
                 model: item
             });
@@ -139,7 +134,7 @@
         },
 
         showUserList: function () {
-            this.$el.empty();
+            //this.$el.empty();
             this.collection.reset(inst);
             var _listNames = _.uniq(this.collection.pluck('USERNAME'));
             _.each(_listNames, function (item) {
@@ -180,14 +175,17 @@
          *  Отрисовка блоков картинок
          * */
         renderMainImages: function(){
-            console.log(tempIndexImages);
-            this.$el.empty();
-            for(var i = 1; i <= 8; i++){
+            var main = new Instblock({});
+            var instblockMain = new InstblockMain({
+                model: main
+            });
+            this.$el.append(instblockMain.render_main().el);
+            for(var i = 1; i <= 19; i++){
                 var item = new Instblock({THUMB: tempIndexImages[i]}) ;
-                var instblockMain = new InstblockMain({
+                var instblockMainPhotos = new InstblockMainPhotos({
                     model: item
                 });
-                this.$el.append(instblockMain.render_top().el);
+                this.$el.append(instblockMainPhotos.render_main_photos().el);
             }
         }
     });
