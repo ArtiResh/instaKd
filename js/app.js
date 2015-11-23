@@ -42,10 +42,24 @@
         tagName: "div",
         className: "user",
         template: _.template($("#instaUsersList").html()),
+        events: {
+            'click .user_name_block': 'clickNameList'
+        },
 
         render: function () {
             this.$el.html(this.template(this.model.toJSON()));
             return this;
+        },
+
+        clickNameList: function(e){
+            e.preventDefault();
+            //console.log(this.model.get('USERNAME'));
+            var _name = this.model.get('USERNAME');
+            var photoByName = _.filter(directory.collection.models, function(el){
+                if(el.attributes.USERNAME == _name){
+                   console.log(el.get('THUMB'));
+                }
+            });
         }
     });
 
@@ -55,7 +69,7 @@
         el: $(".inst_content"),
 
         events: {
-            'click .username': 'clickName'
+            'click div.username': 'clickName'
         },
 
         initialize: function () {

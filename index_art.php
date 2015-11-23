@@ -7,7 +7,6 @@ $APPLICATION->SetAdditionalCSS("/promo/instagram/css/styles.css");
     <div class="inst_content">
 
     </div>
-
     <script id="instaMainTemplate" type="text/template">
 </script>
 
@@ -24,13 +23,13 @@ $APPLICATION->SetAdditionalCSS("/promo/instagram/css/styles.css");
     </script>
 
     <script id="instaUsersList" type="text/template">
-        <%= USERNAME %> &mdash; <%= LIKES %>
+        <div class="user_name_block"><%= USERNAME %> &mdash; <%= LIKES %></div>
     </script>
 
 
     <script src="/local/templates/kdmarket/js/fancybox/jquery.fancybox.js"></script>
     <script src="/local/templates/kdmarket/js/fancybox/helpers/jquery.fancybox-thumbs.js"></script>
-    <script src="js/underscore.js"></script>
+    <script src="js/underscore-min.js"></script>
     <script src="js/backbone-min.js"></script>
     <script src="js/app.js"></script>
     <script>
