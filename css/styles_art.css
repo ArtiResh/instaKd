@@ -6,7 +6,6 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
-    background: #1b1a19;
 }
 .inst_content #more {
     bottom: 8px;

@@ -6,7 +6,6 @@ $APPLICATION->SetAdditionalCSS("/promo/instagram/css/styles.css");
 ?>
 <div class="inst_content"></div>
 <div class="main_top_photos main_photos"></div>
-<div class="main_left_photos main_photos"></div>
 <div class="main_bot_photos main_photos"></div>
 <div class="leadership"></div>
 

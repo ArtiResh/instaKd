@@ -2,8 +2,9 @@
 
 $APPLICATION->SetAdditionalCSS(SITE_TEMPLATE_PATH . "/js/fancybox/jquery.fancybox.css");
 $APPLICATION->SetAdditionalCSS(SITE_TEMPLATE_PATH . "/js/fancybox/helpers/jquery.fancybox-thumbs.css");
-$APPLICATION->SetAdditionalCSS("/promo/instagram/css/styles.css");
+$APPLICATION->SetAdditionalCSS("/promo/instagram/css/styles_art.css");
 ?>
+    <input type="text" class="filter_in" placeholder="введите текст">
     <div class="inst_content">
 
     </div>

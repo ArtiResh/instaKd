@@ -22,7 +22,7 @@
 
     /** Заполняем массив с временными картинками */
     var tempIndexImages = [];
-    for (i = 1; i <= 19; i++){
+    for (i = 1; i <= 16; i++){
         tempIndexImages.push("/promo/instagram/images/" + i + ".jpg");
     }
 
@@ -114,16 +114,6 @@
             return this;
         }
     });
-    /** Вид левых фотографий */
-    var InstblockLeftPhotos = Backbone.View.extend({
-        el: '.main_left_photos',
-        template: _.template($("#instaMainPhotosTemplate").html()),
-
-        render_photos: function () {
-            this.$el.append(this.template(this.model.toJSON()));
-            return this;
-        }
-    });
     /** Вид нижних фотографий */
     var InstblockBotPhotos = Backbone.View.extend({
         el: '.main_bot_photos',
@@ -172,9 +162,7 @@
             _.each(shuffle(tempIndexImages), function(tempImg){
                 if(i < 9){
                     pos = "top";
-                } else if (i >= 9 && i < 12){
-                    pos = "left";
-                } else if (i >= 12 && i < 19){
+                } else if (i >= 9 && i <= 16){
                     pos = "bot";
                 }
                 this.renderMainPhotos(new Instblock({THUMB:tempImg}), pos);
@@ -185,10 +173,6 @@
             var instblockMainPhotos;
             if(position == "top"){
                 instblockMainPhotos = new InstblockTopPhotos({
-                    model: image
-                });
-            } else if (position == "left"){
-                instblockMainPhotos = new InstblockLeftPhotos({
                     model: image
                 });
             } else if (position == "bot"){
