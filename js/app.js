@@ -43,7 +43,8 @@
         className: "user",
         template: _.template($("#instaUsersList").html()),
         events: {
-            'click .user_name_block': 'clickNameList'
+            'click .user_name_block': 'clickNameList',
+
         },
 
         render: function () {
@@ -53,13 +54,12 @@
 
         clickNameList: function(e){
             e.preventDefault();
-            //console.log(this.model.get('USERNAME'));
             var _name = this.model.get('USERNAME');
             var photoByName = _.filter(directory.collection.models, function(el){
                 if(el.attributes.USERNAME == _name){
-                   console.log(el.get('THUMB'));
+                    this.$el.append( "<img src="+el.get('THUMB')+">" );
                 }
-            });
+            }, this);
         }
     });
 
@@ -69,7 +69,7 @@
         el: $(".inst_content"),
 
         events: {
-            'click div.username': 'clickName'
+            "change  input.filter_in":  'filterChanged'
         },
 
         initialize: function () {
@@ -149,10 +149,6 @@
 
         },
 
-        clickName : function() {
-            console.log(this.showNext());
-        },
-
         trackScrolling: function () {
             if(window.location.hash == ""){
                 return $(window).on('scroll', _.throttle((function (_this) {
@@ -165,6 +161,12 @@
                     };
                 })(this), 300));
             }
+        },
+
+        filterChanged: function(e){
+            console.log("546");
+            //var field = $(e.currentTarget);
+            //console.log(field.val());
         }
     });
 
