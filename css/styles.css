@@ -15,7 +15,7 @@
     padding: 3px 15px;
 }
 .inst_content {
-    width: 1100px;
+    width: 1200px;
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
@@ -38,4 +38,66 @@
     flex: 1 100%;
     font: 18px "Segoe UI";
     margin-bottom: 15px;
+}
+
+/* Для главной */
+.inst_content .main_photos {
+    font-size: 0;
+}
+.inst_content .main_top_photos  {
+    order: 1;
+}
+.inst_content .main_left_photos  {
+    font-size: 0;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    order: 2;
+}
+.inst_content .main_bot_photos  {
+    order: 3;
+}
+.inst_content .tasks, .inst_content .leadership  {
+    order: 2;
+}
+.inst_content .tasks {
+    width: 750px;
+}
+.inst_content .leadership {
+    width: 280px;
+    padding: 15px 0 15px 20px;
+}
+.inst_content .leadership_user {
+    display: block;
+    font: 13px "Segoe UI";
+}
+.inst_content .leadership_user:not(:last-of-type) {
+    margin-bottom: 6px;
+}
+.inst_content .leadership_user:first-of-type,
+.inst_content .leadership_user:nth-of-type(2),
+.inst_content .leadership_user:nth-of-type(3) {
+    font-weight: bold;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+@keyframes loopCircle {
+    from {transform: rotate(35deg)}
+    to {transform: rotate(395deg)}
+}
+.inst_content .leadership_user:first-of-type:after,
+.inst_content .leadership_user:nth-of-type(2):after,
+.inst_content .leadership_user:nth-of-type(3):after {
+    content: '';
+    display: inline-block;
+    margin-right: 15px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 5px solid #000;
+    border-top: 5px solid #FFAA00;
+    transform: rotate(35deg);
+    animation: loopCircle 1s cubic-bezier(0, 0, 0.39, 1.01) infinite;
 }
