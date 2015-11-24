@@ -69,19 +69,20 @@
         el: $(".inst_content"),
 
         events: {
-            "change  input.filter_in":  'filterChanged'
+            "keyup input.filter_in":  'filterChanged',
         },
 
         initialize: function () {
             this.collection = new Instagramm(inst);
-            this.render();
+            //this.render();
             this.trackScrolling();
-            this.on("change:showList", this.showUserList, this);
+            this.on("change:filterNameChanged", this.filterByName, this);
+            //this.on("change:showList", this.showUserList, this);
         },
 
-        render: function () {
-
-        },
+        //render: function () {
+        //
+        //},
 
         renderFeed: function() {
             this.$el.empty();
@@ -103,7 +104,6 @@
         },
 
         renderUser: function(item) {
-            //console.log(item);
             var instblockUsers = new InstblockUsers({
                 model: item
             });
@@ -122,7 +122,7 @@
         },
 
         showUserList: function () {
-            this.$el.empty();
+            this.$el.children().remove('div');
             this.collection.reset(inst);
             var _listNames = _.uniq(this.collection.pluck('USERNAME'));
             _.each(_listNames, function (item) {
@@ -132,19 +132,22 @@
         },
 
         getUserInform: function (item) {
-            var _summLikes = 0;
+            var _summLikes  = 0, _summPhotoSteps = 0, _rating  = 0;
             var listPhotos = this.collection.where({USERNAME: item});
             _.each(listPhotos, function (subItem) {
                 _summLikes += subItem.get('LIKES');
+                _summPhotoSteps++;
             });
-            listCollection.push({USERNAME: item, LIKES: _summLikes});
+            _rating = _summPhotoSteps + _summLikes/100;
+            listCollection.push({USERNAME: item, LIKES: _summLikes, RATING: _rating, STEPS: _summPhotoSteps});
 
         },
 
-        sortNames: function(){
-            var sortedArrayNames= (_.sortBy(listCollection,'LIKES')).reverse();
+        sortNames: function(_unsortedArray){
+            !(_unsortedArray)?_unsortedArray = listCollection:'';
+            var sortedArrayNames = (_.sortBy(_unsortedArray,'RATING')).reverse();
             _.each(sortedArrayNames, function (subItem) {
-                this.renderUser(new Instblock({USERNAME: subItem.USERNAME, LIKES: subItem.LIKES}));
+                this.renderUser(new Instblock({USERNAME: subItem.USERNAME, LIKES: subItem.LIKES, RATING: subItem.RATING, STEPS: subItem.STEPS}));
             }, this);
 
         },
@@ -164,11 +167,22 @@
         },
 
         filterChanged: function(e){
-            console.log("546");
-            //var field = $(e.currentTarget);
-            //console.log(field.val());
+            this.filterName = $(e.currentTarget).val();
+            this.trigger("change:filterNameChanged");
+        },
+
+        filterByName: function(){
+            this.$el.children().remove('div');
+            var _filtered = _.filter(listCollection, function(el){
+                return el.USERNAME.substr(0, this.filterName.length) == this.filterName;
+            }, this);
+            this.sortNames(_filtered);
+            console.log(this.filterName.length);
+            console.log(_filtered);
         }
     });
+
+
 
     var InstaRout = Backbone.Router.extend({
         routes: {

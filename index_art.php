@@ -4,9 +4,9 @@ $APPLICATION->SetAdditionalCSS(SITE_TEMPLATE_PATH . "/js/fancybox/jquery.fancybo
 $APPLICATION->SetAdditionalCSS(SITE_TEMPLATE_PATH . "/js/fancybox/helpers/jquery.fancybox-thumbs.css");
 $APPLICATION->SetAdditionalCSS("/promo/instagram/css/styles_art.css");
 ?>
-    <input type="text" class="filter_in" placeholder="введите текст">
-    <div class="inst_content">
 
+    <div class="inst_content">
+        <input type="text" class="filter_in" placeholder="введите текст">
     </div>
     <script id="instaMainTemplate" type="text/template">
 </script>
@@ -24,7 +24,7 @@ $APPLICATION->SetAdditionalCSS("/promo/instagram/css/styles_art.css");
     </script>
 
     <script id="instaUsersList" type="text/template">
-        <div class="user_name_block"><%= USERNAME %> &mdash; <%= LIKES %></div>
+        <div class="user_name_block"><%= USERNAME %> &mdash; <%= RATING %> &mdash; <%= STEPS %> &mdash; <%= LIKES %></div>
     </script>
 
 
