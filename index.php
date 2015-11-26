@@ -9,21 +9,90 @@ $APPLICATION->SetAdditionalCSS("/promo/instagram/css/styles.css");
         background: url('/promo/instagram/images/index/bg.jpg') right bottom no-repeat, #ea4012;
         width: 1178px;
         height: 360px;
+        margin: 0 auto;
+        text-align: center;
     }
     .instagram_prizes {
+        display: -ms-flexbox;
+        display: -webkit-flex;
         display: flex;
-        align-content: flex-end;
+        -webkit-justify-content: center;
+        -ms-flex-pack: center;
         justify-content: center;
+        -webkit-align-items: flex-end;
+        -ms-flex-align: end;
+        align-items: flex-end;
+        padding: 88px 0 63px 36px;
+    }
+    .instagram_prizes img:nth-of-type(2) {
+        margin: 0 85px;
+    }
+    .index_top_instagram_promo img {
+        opacity: 0;
+        -webkit-transition: .45s ease-out;
+        -moz-transition: .45s ease-out;
+        -ms-transition: .45s ease-out;
+        -o-transition: .45s ease-out;
+        transition: .45s ease-out;
+    }
+    .instagram_prizes img:nth-of-type(1) {
+        transform: translateX(-75px);
+    }
+    .instagram_prizes img:nth-of-type(3) {
+        transform: translateX(75px);
+    }
+    .instagram_bot {
+        transform: translateY(30px);
+    }
+    .index_top_instagram_promo img.active {
+        opacity: 1;
+        transform: translateX(0) translateY(0);
+    }
+    @keyframes loopInstBlink {
+        0% {
+            -webkit-filter: drop-shadow(0 0 0 white);
+            filter: drop-shadow(0 0 0 white);
+        }
+        5% {
+            -webkit-filter: drop-shadow(0 0 3px white);
+            filter: drop-shadow(0 0 3px white);
+        }
+        10% {
+            -webkit-filter: drop-shadow(0 0 0 white);
+            filter: drop-shadow(0 0 0 white);
+        }
+        100% {
+            -webkit-filter: drop-shadow(0 0 0 white);
+            filter: drop-shadow(0 0 0 white);
+        }
+    }
+    .instagram_center.blink {
+        animation: loopInstBlink 2.5s ease-out infinite;
     }
 </style>
 <div class="index_top_instagram_promo">
     <div class="instagram_prizes">
-        <img src="/promo/instagram/images/index/left.png" />
-        <img src="/promo/instagram/images/index/center.png" />
-        <img src="/promo/instagram/images/index/right.png" />
+        <img class="instagram_left" src="/promo/instagram/images/index/left.png" />
+        <img class="instagram_center" src="/promo/instagram/images/index/center.png" />
+        <img class="instagram_right" src="/promo/instagram/images/index/right.png" />
     </div>
-    <img src="/promo/instagram/images/index/bottom.png" />
+    <img class="instagram_bot" src="/promo/instagram/images/index/bottom.png" />
 </div>
+<script>
+    $(window).load(function(){
+        $(".instagram_left").addClass('active');
+        setTimeout(function(){
+            $(".instagram_right").addClass('active');
+            setTimeout(function(){
+                $(".instagram_center").addClass('active');
+                setTimeout(function(){
+                    $(".instagram_bot").addClass('active');
+                    $(".instagram_center").addClass('blink');
+                }, 650);
+            }, 650);
+        }, 650);
+    });
+</script>
 <!---- Шапка акции ---->
 <div class="promo_head">
     <div class="promo_logo">
