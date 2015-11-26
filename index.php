@@ -4,6 +4,26 @@ $APPLICATION->SetAdditionalCSS(SITE_TEMPLATE_PATH . "/js/fancybox/jquery.fancybo
 $APPLICATION->SetAdditionalCSS(SITE_TEMPLATE_PATH . "/js/fancybox/helpers/jquery.fancybox-thumbs.css");
 $APPLICATION->SetAdditionalCSS("/promo/instagram/css/styles.css");
 ?>
+<style>
+    .index_top_instagram_promo {
+        background: #ea4012, url('/promo/instagram/images/index/bg.png');
+        width: 1178px;
+        height: 360px;
+    }
+    .instagram_prizes {
+        display: flex;
+        align-content: flex-end;
+        justify-content: center;
+    }
+</style>
+<div class="index_top_instagram_promo">
+    <div class="instagram_prizes">
+        <img src="/promo/instagram/images/index/" />
+        <img src="/promo/instagram/images/index/" />
+        <img src="/promo/instagram/images/index/" />
+    </div>
+    <img src="/promo/instagram/images/index/" />
+</div>
 <div class="promo_head">
     <div class="promo_logo"><img src="images/main/hashtag_big.png" /></div>
     <div class="promo_menu">
