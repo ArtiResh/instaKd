@@ -26,6 +26,13 @@
         tempIndexImages.push("/promo/instagram/images/" + i + ".jpg");
     }
 
+    /** Заполняем массив с призами */
+    var prizesArray = [
+        "<img src='images/main/prize_icon_1.png' /><span class='underline prize_desc'>iPhone 6</span>",
+        "<img src='images/main/prize_icon_2.png' /><span class='underline prize_desc'>Sony Watch 2</span>",
+        "<img src='images/main/prize_icon_3.png' /><span class='underline prize_desc'>Монопод Momax</span>"
+    ];
+
     $.ajax({
         type:"GET",
         url:"/promo/instagram/cache/cache.txt",
@@ -44,6 +51,7 @@
             USERNAME: "",
             LIKES: "",
             URL: "",
+            PROFILE_PICTURE:"",
             VISIBLE:'hidden'
         }
     });
@@ -74,12 +82,21 @@
         }
     });
 
-
     /** Вид главной страницы
      *
      * Вид заданий
      *
      * */
+    var InstblockMainWrap = Backbone.View.extend({
+        tagName: "div",
+        className: "promo_desc",
+        template: _.template($("#instaMainWrapTemplate").html()),
+
+        render_main: function () {
+            this.$el.html(this.template);
+            return this;
+        }
+    });
     var InstblockTasks = Backbone.View.extend({
         tagName: "div",
         className: "tasks",
@@ -128,6 +145,14 @@
 
     var DirectoryView = Backbone.View.extend({
         /** Отрисовка главной страницы */
+        renderMainPage: function(){
+            this.$el.empty();
+            var instblockMainPage = new InstblockMainWrap();
+            this.$el.append(instblockMainPage.render_main().el);
+            directory.getMainImages();
+            directory.renderTasks();
+            directory.showUserListMain();
+        },
         renderTasks: function(){
             this.$el.append(new InstblockTasks().render_main().el);
         },
@@ -140,9 +165,24 @@
         },
 
         sortNamesMain: function(){
-            var sortedArrayNames= (_.sortBy(listCollection,'LIKES')).reverse();
-            _.each(sortedArrayNames, function (subItem) {
-                this.renderLeadership(new Instblock({USERNAME: subItem.USERNAME, LIKES: subItem.LIKES}));
+            var sortedArrayNames= (_.sortBy(listCollection,'RATING')).reverse();
+            var prize = "", winner = "";
+            _.each(sortedArrayNames, function (subItem, i) {
+                if(i < 10){
+                    if(i == 0){
+                        prize = prizesArray[0];
+                    } else if(i > 0 && i < 5) {
+                        prize = prizesArray[1];
+                    } else if(i > 4 && i < 10) {
+                        prize = prizesArray[2];
+                    }
+                    this.renderLeadership(new Instblock(
+                        {
+                            USERNAME: subItem.USERNAME, LIKES: subItem.LIKES,
+                            RATING: subItem.RATING, POSITION: i + 1, PRIZE: prize, STEPS: subItem.STEPS
+                        }
+                    ));
+                }
             }, this);
         },
 
@@ -156,7 +196,7 @@
         },
         /** Отрисовка фоток на главной странице */
         getMainImages: function(){
-            this.$el.empty();
+            //this.$el.empty();
             var i = 1;
             var pos;
             _.each(shuffle(tempIndexImages), function(tempImg){
@@ -181,6 +221,9 @@
                 });
             }
             this.$el.append(instblockMainPhotos.render_photos().el);
+        },
+        clearPage: function(){
+            this.$el.empty();
         },
         /** ---------------------------------------------------------------------- */
 
@@ -249,14 +292,16 @@
         },
 
         getUserInform: function (item) {
-            var _summLikes = 0;
+            var _summLikes  = 0, _summPhotoSteps = 0, _rating  = 0;
             var listPhotos = this.collection.where({USERNAME: item});
             _.each(listPhotos, function (subItem) {
                 _summLikes += subItem.get('LIKES');
+                _summPhotoSteps++;
             });
-            listCollection.push({USERNAME: item, LIKES: _summLikes});
-
+            _rating = _summPhotoSteps + _summLikes/100;
+            listCollection.push({USERNAME: item, LIKES: _summLikes, RATING: _rating, STEPS: _summPhotoSteps});
         },
+
         sortNames: function(){
             var sortedArrayNames= (_.sortBy(listCollection,'LIKES')).reverse();
             _.each(sortedArrayNames, function (subItem) {
@@ -288,13 +333,13 @@
         routes: {
             "": "urlMain",
             "feed":"urlFeed",
-            "list": "urlList"
+            "list": "urlList",
+            "rules": "urlStatic",
+            "prizes": "urlStatic"
         },
 
         urlMain: function(){
-            directory.getMainImages();
-            directory.renderTasks();
-            directory.showUserListMain();
+            directory.renderMainPage();
         },
 
         urlFeed: function(){
@@ -303,8 +348,68 @@
 
         urlList: function () {
             directory.showUserList();
+        },
+
+        urlStatic: function () {
+            directory.clearPage();
         }
 
     });
 } (jQuery));
 
+$(window).load(function(){
+    $(".tasks_list .task:not(.disabled)").click(function(){
+        if(!$(this).hasClass('active')){
+            $(".task.active").removeClass('active');
+            $("#task_" + $(this).index()).addClass('active');
+            $(this).addClass('active');
+        }
+    });
+    $(".question form button").click(function(){
+        if (empty($("#q_name").val()) || empty($("#q_contact").val()) || empty($("#q_issue").val())) {
+            lightbox.runLoad('instagram_question', {name: false, contact: false, issue: false});
+            return false;
+        } else {
+            lightbox.runLoad('instagram_question', {name: $("#q_name").val(), contact: $("#q_contact").val(), issue: $("#q_issue").val()});
+        }
+    });
+});
+var step_info_timeout;
+$(".promo_steps .step").mouseenter(function(){
+    $(".step_info.active").removeClass('active');
+    clearTimeout(step_info_timeout);
+    var step_info = $(".step_info").eq($(this).index() / 2);
+    $(".main_top_photos").css({marginTop: step_info.height() + 'px'});
+    step_info.addClass('active');
+});
+$(".promo_desc").mouseleave(function(){
+    clearTimeout(step_info_timeout);
+    $(".step_info.active").removeClass('active');
+    step_info_timeout = setTimeout(function(){
+        $(".main_top_photos").css({marginTop: '0px'});
+    }, 200);
+});
+function switchQuestion(){
+    if(window.location.hash != ""){
+        $(".question").css('display', 'none');
+    } else {
+        $(".question").css('display', 'block');
+    }
+}
+function showStatic(){
+    if(window.location.hash == "#rules"){
+        $(".rules").addClass('active');
+        $(".prizes").removeClass('active');
+    } else if(window.location.hash == "#prizes") {
+        $(".rules").removeClass('active');
+        $(".prizes").addClass('active');
+    }
+}
+$(window).on('hashchange', function() {
+    switchQuestion();
+    showStatic();
+});
+$(document).ready(function(){
+    switchQuestion();
+    showStatic();
+});
