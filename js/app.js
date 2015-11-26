@@ -18,6 +18,7 @@
             IMAGE: "",
             USERNAME: "",
             LIKES: "",
+            PROFILE_PICTURE:"",
             URL: "",
             VISIBLE:'hidden'
         }
@@ -43,7 +44,8 @@
         className: "user",
         template: _.template($("#instaUsersList").html()),
         events: {
-            'click .user_name_block': 'clickNameList'
+            'click .user_name_block': 'clickNameList',
+
         },
 
         render: function () {
@@ -53,13 +55,17 @@
 
         clickNameList: function(e){
             e.preventDefault();
-            //console.log(this.model.get('USERNAME'));
-            var _name = this.model.get('USERNAME');
-            var photoByName = _.filter(directory.collection.models, function(el){
-                if(el.attributes.USERNAME == _name){
-                   console.log(el.get('THUMB'));
-                }
-            });
+            if(this.$el.children('img').length === 0) {
+                var _name = this.model.get('USERNAME');
+                var photoByName = _.filter(directory.collection.models, function (el) {
+                    if (el.attributes.USERNAME == _name) {
+                        this.$el.append("<img src=" + el.get('THUMB') + ">");
+                    }
+                }, this);
+            }
+            else{
+                this.$el.children('img').remove();
+            }
         }
     });
 
@@ -69,19 +75,20 @@
         el: $(".inst_content"),
 
         events: {
-            'click div.username': 'clickName'
+            "keyup input.filter_in":  'filterChanged',
         },
 
         initialize: function () {
             this.collection = new Instagramm(inst);
-            this.render();
+            //this.render();
             this.trackScrolling();
-            this.on("change:showList", this.showUserList, this);
+            this.on("change:filterNameChanged", this.filterByName, this);
+            //this.on("change:showList", this.showUserList, this);
         },
 
-        render: function () {
-
-        },
+        //render: function () {
+        //
+        //},
 
         renderFeed: function() {
             this.$el.empty();
@@ -103,7 +110,6 @@
         },
 
         renderUser: function(item) {
-            //console.log(item);
             var instblockUsers = new InstblockUsers({
                 model: item
             });
@@ -121,38 +127,6 @@
             }, this);
         },
 
-        showUserList: function () {
-            this.$el.empty();
-            this.collection.reset(inst);
-            var _listNames = _.uniq(this.collection.pluck('USERNAME'));
-            _.each(_listNames, function (item) {
-                this.getUserInform(item);
-            }, this);
-            this.sortNames();
-        },
-
-        getUserInform: function (item) {
-            var _summLikes = 0;
-            var listPhotos = this.collection.where({USERNAME: item});
-            _.each(listPhotos, function (subItem) {
-                _summLikes += subItem.get('LIKES');
-            });
-            listCollection.push({USERNAME: item, LIKES: _summLikes});
-
-        },
-
-        sortNames: function(){
-            var sortedArrayNames= (_.sortBy(listCollection,'LIKES')).reverse();
-            _.each(sortedArrayNames, function (subItem) {
-                this.renderUser(new Instblock({USERNAME: subItem.USERNAME, LIKES: subItem.LIKES}));
-            }, this);
-
-        },
-
-        clickName : function() {
-            console.log(this.showNext());
-        },
-
         trackScrolling: function () {
             if(window.location.hash == ""){
                 return $(window).on('scroll', _.throttle((function (_this) {
@@ -165,8 +139,56 @@
                     };
                 })(this), 300));
             }
+        },
+
+        showUserList: function () {
+            this.$el.children().remove('div');
+            this.collection.reset(inst);
+            var _listNames = _.uniq(this.collection.pluck('USERNAME'));
+            _.each(_listNames, function (item) {
+                this.getUserInform(item);
+            }, this);
+            this.sortNames();
+        },
+
+        getUserInform: function (item) {
+            var _summLikes  = 0, _summPhotoSteps = 0, _rating  = 0;
+            var listPhotos = this.collection.where({USERNAME: item});
+            _.each(listPhotos, function (subItem) {
+                _summLikes += subItem.get('LIKES');
+                _summPhotoSteps++;
+            });
+            _rating = _summPhotoSteps + _summLikes/100;
+            listCollection.push({USERNAME: item, LIKES: _summLikes, RATING: _rating, STEPS: _summPhotoSteps});
+
+        },
+
+        sortNames: function(_unsortedArray){
+            _unsortedArray = _unsortedArray || listCollection;
+            var sortedArrayNames = (_.sortBy(_unsortedArray,'RATING')).reverse();
+            _.each(sortedArrayNames, function (subItem) {
+                this.renderUser(new Instblock({USERNAME: subItem.USERNAME, LIKES: subItem.LIKES, RATING: subItem.RATING, STEPS: subItem.STEPS}));
+            }, this);
+
+        },
+
+        filterChanged: function(e){
+            this.filterName = $(e.currentTarget).val();
+            this.trigger("change:filterNameChanged");
+        },
+
+        filterByName: function(){
+            this.$el.children().remove('div');
+            var _filtered = _.filter(listCollection, function(el){
+                return el.USERNAME.substr(0, this.filterName.length) == this.filterName;
+            }, this);
+            this.sortNames(_filtered);
+            console.log(this.filterName.length);
+            console.log(_filtered);
         }
     });
+
+
 
     var InstaRout = Backbone.Router.extend({
         routes: {

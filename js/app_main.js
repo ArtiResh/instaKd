@@ -26,6 +26,13 @@
         tempIndexImages.push("/promo/instagram/images/" + i + ".jpg");
     }
 
+    /** Заполняем массив с призами */
+    var prizesArray = [
+        "<img src='images/main/prize_icon_1.png' /><span class='underline prize_desc'>iPhone 6S</span>",
+        "<img src='images/main/prize_icon_1.png' /><span class='underline prize_desc'>iPad Pro</span>",
+        "<img src='images/main/prize_icon_1.png' /><span class='underline prize_desc'>iPod Mega</span>"
+    ];
+
     $.ajax({
         type:"GET",
         url:"/promo/instagram/cache/cache.txt",
@@ -44,6 +51,7 @@
             USERNAME: "",
             LIKES: "",
             URL: "",
+            PROFILE_PICTURE:"",
             VISIBLE:'hidden'
         }
     });
@@ -140,9 +148,25 @@
         },
 
         sortNamesMain: function(){
-            var sortedArrayNames= (_.sortBy(listCollection,'LIKES')).reverse();
+            var sortedArrayNames= (_.sortBy(listCollection,'RATING')).reverse();
+            var i = 1, prize = "", winner = "";
             _.each(sortedArrayNames, function (subItem) {
-                this.renderLeadership(new Instblock({USERNAME: subItem.USERNAME, LIKES: subItem.LIKES}));
+                if(i < 9){
+                    if(i <= 3){
+                        prize = prizesArray[i - 1];
+                        winner = "winner";
+                    } else {
+                        prize = "<span class='underline'>Скидка 3%</span>";
+                        winner = "";
+                    }
+                    this.renderLeadership(new Instblock(
+                        {
+                            USERNAME: subItem.USERNAME, LIKES: subItem.LIKES,
+                            RATING: subItem.RATING, POSITION: i, PRIZE: prize, CLASS: winner
+                        }
+                    ));
+                    i++;
+                }
             }, this);
         },
 
@@ -249,14 +273,16 @@
         },
 
         getUserInform: function (item) {
-            var _summLikes = 0;
+            var _summLikes  = 0, _summPhotoSteps = 0, _rating  = 0;
             var listPhotos = this.collection.where({USERNAME: item});
             _.each(listPhotos, function (subItem) {
                 _summLikes += subItem.get('LIKES');
+                _summPhotoSteps++;
             });
-            listCollection.push({USERNAME: item, LIKES: _summLikes});
-
+            _rating = _summPhotoSteps + _summLikes / 100;
+            listCollection.push({USERNAME: item, LIKES: _summLikes, RATING: _rating, STEPS: _summPhotoSteps});
         },
+
         sortNames: function(){
             var sortedArrayNames= (_.sortBy(listCollection,'LIKES')).reverse();
             _.each(sortedArrayNames, function (subItem) {
@@ -308,3 +334,35 @@
     });
 } (jQuery));
 
+$(window).load(function(){
+    $(".tasks_list .task:not(.disabled)").click(function(){
+        if(!$(this).hasClass('active')){
+            $(".task.active").removeClass('active');
+            $("#task_" + $(this).index()).addClass('active');
+            $(this).addClass('active');
+        }
+    });
+    $(".question form button").click(function(){
+        if (empty($("#q_name").val()) || empty($("#q_contact").val()) || empty($("#q_issue").val())) {
+            lightbox.runLoad('instagram_question', {name: false, contact: false, issue: false});
+            return false;
+        } else {
+            lightbox.runLoad('instagram_question', {name: $("#q_name").val(), contact: $("#q_contact").val(), issue: $("#q_issue").val()});
+        }
+    });
+});
+var step_info_timeout;
+$(".promo_steps .step").mouseenter(function(){
+    $(".step_info.active").removeClass('active');
+    clearTimeout(step_info_timeout);
+    var step_info = $(".step_info").eq($(this).index() / 2);
+    $(".inst_content").css({transform: 'translateY(' + step_info.height() + 'px)'});
+    step_info.addClass('active');
+});
+$(".promo_desc").mouseleave(function(){
+    clearTimeout(step_info_timeout);
+    $(".step_info.active").removeClass('active');
+    step_info_timeout = setTimeout(function(){
+        $(".inst_content").css({transform: 'translateY(0px)'});
+    }, 200);
+});

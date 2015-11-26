@@ -23,6 +23,7 @@ foreach ($media->data as $data) {
     $result[$i]['THUMB'] = $data->images->thumbnail->url;
     $result[$i]['IMAGE'] = $data->images->standard_resolution->url;
     $result[$i]['USERNAME'] = $data->caption->from->username;
+    $result[$i]['PROFILE_PICTURE'] = $data->caption->from->profile_picture;
     $result[$i]['LIKES'] = $data->likes->count;
     $result[$i]['URL'] = $data->link;
     $i++;
