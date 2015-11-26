@@ -9,7 +9,6 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
-    transition: transform .3s cubic-bezier(0, 0, 0.52, 1.48);
 }
 .inst_blue_link {
     color: #75a9ff;
@@ -65,11 +64,14 @@
     display: inline-block;
     margin-right: 17px;
     line-height: 13px;
+    position: relative;
+    z-index: 2;
 }
 .promo_head .promo_menu .tree {
     position: absolute;
     right: 0;
     top: 5px;
+    z-index: 1;
 }
 
 .promo_desc {
@@ -200,6 +202,7 @@
 }
 .inst_content .main_top_photos  {
     order: 1;
+    transition: margin .3s cubic-bezier(0, 0, 0.52, 1.48);
 }
 .inst_content .main_bot_photos  {
     order: 3;
@@ -326,9 +329,9 @@
     font-size: 10px;
 }
 .leadership {
-    width: 365px;
+    width: 380px;
     border-left: 1px solid #000;
-    padding-left: 48px;
+    padding-left: 43px;
     display: flex;
     flex-wrap: nowrap;
     align-items: flex-start;
@@ -369,7 +372,7 @@
     margin-left: -5px;
 }
 .leadership_line {
-    width: 365px;
+    width: 380px;
     display: flex;
     flex-wrap: nowrap;
     align-items: center;
@@ -379,37 +382,60 @@
     order: 2;
 }
 .leadership_line {
-    margin-bottom: 10px;
-}
-.leadership_line.winner {
-    margin-bottom: 20px;
+    margin-bottom: 13px;
 }
 .leadership_line .position {
     display: inline-block;
     transform: translateX(-14px);
+    width: 8px;
 }
 .leadership_user {
-    width: 160px;
+    width: 143px;
     display: inline-block;
 }
 .leadership_rating {
-    width: 106px;
+    width: 94px;
     display: inline-block;
+    position: relative;
 }
 .leadership_prize img {
     position: absolute;
     left: 0;
-    top: -3px;
+    top: -2px;
+    height: 23px;
 }
 .leadership_prize .prize_desc {
-    margin-left: 21px;
+    margin-left: 20px;
 }
 .leadership .more {
     order: 3;
     transform: translateX(0px);
+    margin-top: 10px;
 }
-.leadership .more:not(:last-of-type) {
-    margin-bottom: 10px;
+.leadership .rating_detail {
+    position: absolute;
+    top: -12px;
+    right: -97px;
+    width: 96px;
+    height: 62px;
+    z-index: 3;
+    background: #1b1a19;
+    border: 1px solid #747474;
+    color: #797979;
+    font-size: 9px;
+    padding: 13px 17px 13px 17px;
+    display: none;
+}
+.leadership .completed_tasks, .leadership .likes_count {
+    font-size: 12px;
+    font-weight: 600;
+    color: #fff;
+}
+.leadership .completed_tasks {
+    margin-bottom: 7px;
+}
+.leadership .completed_tasks img, .leadership .likes_count img {
+    margin-left: 5px;
 }
 
 
@@ -528,6 +554,176 @@
     width: 250px;
     float: left;
     margin-left: 85px;
+}
+
+/* Условия акции */
+.rules {
+    background: #1b1a19;
+    display: flex;
+    flex-wrap: nowrap;
+    width: 1065px;
+    padding: 0 50px 0 85px;
+    color: #fff;
+    opacity: 0;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: -1;
+    height: 0;
+}
+.rules.active {
+    opacity: 1;
+    pointer-events: auto;
+    z-index: 2;
+    height: auto;
+    transition: opacity .3s ease-in;
+    margin-bottom: 80px;
+}
+.rules > div {
+    flex: 1 50%;
+    position: relative;
+}
+.rules .rules_left:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 0;
+    border-right: 1px solid #444444;
+}
+.rules .rules_right:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0;
+    border-left: 1px solid #000;
+}
+.rules .rules_title {
+    color: #383838;
+    font-size: 31px;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 30px;
+}
+.rules ol {
+    list-style: decimal inside;
+}
+.rules ol li {
+    margin-top: 10px;
+}
+
+.rules .sub_title {
+    font-size: 22px;
+    color: #fff;
+    margin-top: 28px;
+}
+.rules .rules_left ol, .rules .rules_left div {
+     margin-right: 70px;
+}
+.rules .rules_right ol, .rules .rules_right div {
+     margin-left: 70px;
+}
+
+/* Призы */
+.prizes {
+    background: #1b1a19;
+    display: flex;
+    flex-wrap: wrap;
+    width: 1037px;
+    padding: 0 50px 0 85px;
+    color: #fff;
+    opacity: 0;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: -1;
+    height: 0;
+    font-weight: 600;
+}
+.prizes.active {
+    transition: opacity .3s ease-in;
+    opacity: 1;
+    pointer-events: auto;
+    z-index: 2;
+    height: auto;
+    margin-bottom: 80px;
+}
+.prizes .prize {
+    width: 990px;
+    margin: 48px auto 20px auto;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+}
+.prize:nth-of-type(1) {
+    margin: 48px auto 14px auto;
+}
+.prize:nth-of-type(2) {
+    margin: 48px auto 36px auto;
+}
+.prize:nth-of-type(3), .prize:nth-of-type(4) {
+    margin: 48px auto 43px auto;
+}
+.prizes .prize .img {
+    width: 285px;
+    display: flex;
+    justify-content: center;
+    margin-right: 35px;
+}
+.prize .position {
+    font-size: 25px;
+    text-align: center;
+    width: 177px;
+}
+.prize .position span {
+    font-size: 85px;
+}
+.prize .position p {
+    margin-top: -30px;
+}
+.prize:nth-of-type(2) .position p, .prize:nth-of-type(3) .position p, .prize:nth-of-type(4) .position p {
+    margin-top: -15px;
+}
+.prize:first-of-type .position span {
+    font-size: 152px;
+}
+.prize:nth-of-type(4) .position span {
+    font-size: 71px;
+}
+.prize .desc {
+    width: 490px;
+    padding-top: 20px;
+}
+.prize .desc .title {
+    color: #5b5a5a;
+    font-size: 15px;
+    font-weight: bold;
+}
+.prize .desc .prize_name {
+    font-size: 26px;
+    margin-bottom: 36px;
+}
+.prize .desc .text {
+    font-size: 17px;
+    margin-top: 5px;
+}
+.prize:nth-of-type(3) .desc, .prize:nth-of-type(4) .desc, .prize:nth-of-type(5) .desc {
+    padding-top: 0;
+}
+.prize:nth-of-type(4) .desc {
+    margin-top: -8px;
+}
+.prize:nth-of-type(5) .desc {
+    margin-top: -13px;
+}
+.prize:nth-of-type(2) .position {
+    padding-top: 22px;
+}
+.prize:nth-of-type(5) .position {
+    padding-top: 53px;
 }
 
 

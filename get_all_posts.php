@@ -20,7 +20,7 @@ $maxID = $media->pagination->next_max_id;
 
 $i = 0;
 foreach ($media->data as $data) {
-    $result[$i]['THUMB'] = $data->images->thumbnail->url;
+    $result[$i]['THUMB'] = $data->images->low_resolution->url;
     $result[$i]['IMAGE'] = $data->images->standard_resolution->url;
     $result[$i]['USERNAME'] = $data->caption->from->username;
     $result[$i]['PROFILE_PICTURE'] = $data->caption->from->profile_picture;
@@ -40,7 +40,7 @@ while($maxID != false){
 
     // Collect everything for json output
     foreach ($media->data as $data) {
-        $result[$i]['THUMB'] = $data->images->thumbnail->url;
+        $result[$i]['THUMB'] = $data->images->low_resolution->url;
         $result[$i]['IMAGE'] = $data->images->standard_resolution->url;
         $result[$i]['USERNAME'] = $data->caption->from->username;
         $result[$i]['LIKES'] = $data->likes->count;
