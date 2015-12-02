@@ -1,8 +1,4 @@
 <?php
-/**
- * Instagram PHP API
- */
-
 use MetzWeb\Instagram\Instagram;
 
 require_once 'instagram.class.php';
@@ -10,7 +6,7 @@ require_once 'instagram.class.php';
 // Initialize class for public requests
 $instagram = new Instagram('384463ff33314dc6a8e0e129d28b5e25');
 $clientID = $instagram->getApiKey();
-$tag = 'kdmarket';
+$tag = 'kdmarket2016';
 
 $result = array();
 
@@ -20,12 +16,15 @@ $maxID = $media->pagination->next_max_id;
 
 $i = 0;
 foreach ($media->data as $data) {
-    $result[$i]['THUMB'] = $data->images->thumbnail->url;
-    $result[$i]['IMAGE'] = $data->images->standard_resolution->url;
-    $result[$i]['USERNAME'] = $data->caption->from->username;
-    $result[$i]['LIKES'] = $data->likes->count;
-    $result[$i]['URL'] = $data->link;
-    $i++;
+    if($data->caption->from->username != "kdmarket"){
+        $result[$i]['THUMB'] = $data->images->low_resolution->url;
+        $result[$i]['IMAGE'] = $data->images->standard_resolution->url;
+        $result[$i]['USERNAME'] = $data->caption->from->username;
+        $result[$i]['PROFILE_PICTURE'] = $data->caption->from->profile_picture;
+        $result[$i]['LIKES'] = $data->likes->count;
+        $result[$i]['URL'] = $data->link;
+        $i++;
+    }
 }
 
 while($maxID != false){
@@ -39,12 +38,15 @@ while($maxID != false){
 
     // Collect everything for json output
     foreach ($media->data as $data) {
-        $result[$i]['THUMB'] = $data->images->thumbnail->url;
-        $result[$i]['IMAGE'] = $data->images->standard_resolution->url;
-        $result[$i]['USERNAME'] = $data->caption->from->username;
-        $result[$i]['LIKES'] = $data->likes->count;
-        $result[$i]['URL'] = $data->link;
-        $i++;
+        if($data->caption->from->username != "kdmarket"){
+            $result[$i]['THUMB'] = $data->images->low_resolution->url;
+            $result[$i]['IMAGE'] = $data->images->standard_resolution->url;
+            $result[$i]['USERNAME'] = $data->caption->from->username;
+            $result[$i]['PROFILE_PICTURE'] = $data->caption->from->profile_picture;
+            $result[$i]['LIKES'] = $data->likes->count;
+            $result[$i]['URL'] = $data->link;
+            $i++;
+        }
     }
 }
 $filename = "/home/bitrix/www/promo/instagram/cache/cache.txt";
