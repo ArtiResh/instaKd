@@ -600,7 +600,7 @@
 
 /* Форма обратной связи */
 .question {
-    padding-top: 125px;
+    padding-top: 100px;
     height: 505px;
     color: #fff;
 }
@@ -926,6 +926,9 @@
     width: 25%;
     text-align: center;
 }
+.inst_content .photo:last-of-type {
+    margin-bottom: 85px;
+}
 .inst_content .username {
     margin: 7px 0 25px;
     font: 16px "Segoe UI";
@@ -944,10 +947,18 @@
     font: 18px "Segoe UI";
     margin-bottom: 15px;
 }
+.inst_content .user:last-of-type {
+    margin-bottom: 85px;
+}
 
 .main_content .user .user-posted{
     width: 200px;
     margin: 25px;
+}
+
+.main_content .user .user-posted img{
+    width: 200px;
+    margin: 20px 0 40px 0;
 }
 
 .main_content .user .user-posted:nth-of-type(4n+1){
@@ -1067,6 +1078,7 @@
     pointer-events: none;
     z-index: -1;
     height: 0;
+    display: none;
 }
 .main_content .nav.active, .list_table_header.active {
     margin: 0 0 33px 178px;
@@ -1077,6 +1089,7 @@
     pointer-events: auto;
     z-index: 2;
     height: auto;
+    display:block;
 }
 
 .main_content .nav .nav__button {
@@ -1107,12 +1120,16 @@
     margin-right: 16px;
     position: relative;
 }
-.main_content .list_tsble_row div img{
+.main_content .list_tsble_row div{
+    cursor: pointer;
+}
+.main_content .list_tsble_row div:not(.col_07) img{
     margin-left: 5px;
 }
 
 .main_content  .col_01{
     width:10px;
+    cursor: default !important;
 }
 
 .main_content  .col_02{
@@ -1125,9 +1142,16 @@
 }
 
 
-.main_content  .col_03{
-    width:160px;
+.main_content .col_03{
+    width: 160px;
     text-decoration: underline;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.list_table_header .col_03{
+    text-decoration: none;
 }
 
 .main_content  .col_04{
@@ -1191,4 +1215,12 @@
 #lightbox_container .task_1_banner_desc:first-of-type {
     font-weight: bold;
     font-size: 18px;
+}
+
+.leadership a.leadership_user span {
+    max-width: 130px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    height: 14px;
 }

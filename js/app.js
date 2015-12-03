@@ -93,16 +93,17 @@
 
         clickNameList: function(e){
             e.preventDefault();
-            if(this.$el.children('img').length === 0) {
+            if(this.$el.children('a').length === 0) {
                 var _name = this.model.get('USERNAME');
                 var photoByName = _.filter(directory.collection.models, function (el) {
                     if (el.attributes.USERNAME == _name) {
-                        this.$el.append("<img class='user-posted' src=" + el.get('THUMB') + ">");
+                        this.$el.append("<a href="+ el.get('IMAGE')+" rel='fancybox' class='fancybox user-posted'> <img src="+ el.get('THUMB') +"></a>"
+                    );
                     }
                 }, this);
             }
             else{
-                this.$el.children('img').remove();
+                this.$el.children('a').remove();
             }
         }
     });
@@ -196,6 +197,7 @@
                     $nonActive.toggleClass('active');
                 }, 500);
             }, 6000);
+            this.trackScrollingOff();
             directory.getMainImages();
             directory.renderTasks();
             directory.showUserListMain();
@@ -286,7 +288,9 @@
         },
         clearPage: function(){
             this.$el.empty();
+            $(window).scrollTop(0);
         },
+
         /** ---------------------------------------------------------------------- */
 
         el: $(".inst_content"),
@@ -317,6 +321,7 @@
                 }
                 i++;
             }, this);
+             this.fansyIn();
         },
 
         renderItem: function (item) {
@@ -363,6 +368,23 @@
             return $(window).off('scroll');
         },
 
+        fansyIn: function(){
+            $(".fancybox").fancybox({
+                caption : {
+                    type : 'outside'
+                },
+                helpers: {
+                    overlay: {
+                        locked: false
+                    },
+                    thumbs: {
+                        width: 50,
+                        height: 50
+                    }
+                }
+            });
+        },
+
         showUserList: function () {
             $('.nav__button').removeClass('active').find('span').removeClass('underline');
             $('#btn_list').addClass('active');
@@ -379,6 +401,7 @@
                 this.getUserInform(item);
             }, this);
             this.sortNames();
+            this.fansyIn();
         },
 
         getUserInform: function (item) {
@@ -465,6 +488,7 @@
             directory.clearPage();
             directory.renderMainPage();
             if(window.location.hash.indexOf("kdmarket2016") != -1){
+                console.log("in");
                 $(".nav.list, .list_table_header").removeClass('active');
                 $(".rules").removeClass('active');
                 $(".prizes").removeClass('active');

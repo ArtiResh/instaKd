@@ -31,19 +31,19 @@ class Instagram
      *
      * @var string
      */
-    private $_apikey;
+    private $_apikey = "384463ff33314dc6a8e0e129d28b5e25";
     /**
      * The Instagram OAuth API secret.
      *
      * @var string
      */
-    private $_apisecret;
+    private $_apisecret = "0411df6fb653423093ad2904f4607099";
     /**
      * The callback URL.
      *
      * @var string
      */
-    private $_callbackurl;
+    private $_callbackurl = "http://kdmarket.ru/promo/instagram/get_all_posts.php";
     /**
      * The user access token.
      *
@@ -540,6 +540,7 @@ class Instagram
                 break;
         }
         $jsonData = curl_exec($ch);
+
         // split header from JSON data
         // and assign each to a variable
         list($headerContent, $jsonData) = explode("\r\n\r\n", $jsonData, 2);

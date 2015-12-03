@@ -10,7 +10,7 @@ $APPLICATION->SetAdditionalCSS("/promo/instagram/css/styles.css");
         <a href="/promo/instagram/#kdmarket2016"><img src="images/main/hashtag_big.png" /></a>
     </div>
     <div class="promo_menu">
-<!--        <a href="#list" class="underline">Участники</a>-->
+        <a href="#list" class="underline">Участники</a>
         <a href="#rules" class="underline">Условия</a>
         <a href="#prizes" class="underline">Призы</a>
         <span class="tree"><img src="images/main/tree.png" /></span>
@@ -240,7 +240,7 @@ $APPLICATION->SetAdditionalCSS("/promo/instagram/css/styles.css");
     <div class="promo_banner">
         <div class="active">Хочешь iPhone 6 на Новый год?</div>
         <div>Включайся в квест!</div>
-        <span style="display: block; font-size: 14px; margin-top: 20px; text-align: center">Старт акции 02.12.2015. Не пропустите!</span>
+        <span style="display: block; font-size: 14px; margin-top: 20px; text-align: center">Акция уже началась!</span>
     </div>
     <div class="promo_desc_title">Примите участие в нашем селфи-квесте в
         <img src="images/main/instagram_full_logo.png" /> и сделайте свой Новый Год незабываемым!
@@ -286,22 +286,22 @@ $APPLICATION->SetAdditionalCSS("/promo/instagram/css/styles.css");
                 в виде 1й фотографии с хештегом <img src="images/main/hashtag_small.png" />
             </p>
             <br />
-            <p>Выполнение каждого задания повышает Ваш рейтинг на 1 балл.</p>
+            <p>Выполнение каждого задания повышает Ваш <a class="inst_blue_link" href="#list">рейтинг</a> на 1 балл.</p>
             <br /><br/>
             <a class="inst_blue_link" href="#rules">Больше информации в условиях акции</a>
         </div>
         <div class="step_info">
             <p>Лайки, которые ставят Вам под фотографиями нашего квеста с хештегом <img src="images/main/hashtag_small.png" /><br />
-                также повышают Ваш рейтинг в акции.</p>
+                также повышают Ваш <a class="inst_blue_link" href="#list">рейтинг</a> в акции.</p>
             <br />
-            <p>Каждое сердечко повышает Ваш рейтинг на 0,01 балл.</p>
+            <p>Каждое сердечко повышает Ваш <a class="inst_blue_link" href="#list">рейтинг</a> на 0,01 балл.</p>
             <br /><br/>
             <a class="inst_blue_link" href="#rules">Больше информации в условиях акции</a>
         </div>
         <div class="step_info">
             <p>За выполненные задания участники получают <a class="inst_blue_link" href="#prizes">скидку от 3% до 5%</a> на покупку электроники и аксессуаров в нашем магазине.</p>
             <br />
-            <p>Участники с самым высоким рейтингом будут награждены такими призами, как:<br />
+            <p>Участники с самым высоким <a class="inst_blue_link" href="#list">рейтингом</a> будут награждены такими призами, как:<br />
                 <a class="inst_blue_link" href="#prizes/1">потрясающий Apple iPhone 6</a>,<br/>
                 <a class="inst_blue_link" href="#prizes/2">умные часы Sony SmartWatch 2</a><br/>
                 <a class="inst_blue_link" href="#prizes/3">и крутейшие моноподы Momax</a>
@@ -313,15 +313,13 @@ $APPLICATION->SetAdditionalCSS("/promo/instagram/css/styles.css");
     <div class="main_top_photos main_photos"></div>
     <div class="main_bot_photos main_photos"></div>
     <div class="leadership">
-        <a href="javascript: void(0)" class="leadership_title">Участники квеста</a>
-        <!--<div class="leadership_table_head">
+        <a href="#list" class="leadership_title">Участники квеста</a>
+        <div class="leadership_table_head">
             <span class="leadership_user">Участник</span>
             <span class="leadership_rating">Рейтинг</span>
             <span class="leadership_prize">Претендует на</span>
-        </div>-->
-        <p style="margin: 100px auto 15px auto;">Ждем появления первых участников.</p>
-        <p style="margin: 0 auto;">А пока &mdash; смотрим <a class="inst_blue_link" href="#prizes">призы</a></p>
-<!--        <a href="javascript: void(0)" class="more underline">Показать всех участников</a>-->
+        </div>
+        <a href="#list" class="more underline">Показать всех участников</a>
     </div>
 </script>
 
@@ -381,7 +379,7 @@ $APPLICATION->SetAdditionalCSS("/promo/instagram/css/styles.css");
 </script>
 
 <!---- ШАБЛОН списка участников ---->
-<!--<script id="instaMainLeadershipTemplate" type="text/template">
+<script id="instaMainLeadershipTemplate" type="text/template">
     <div class="leadership_line" style="z-index: <%= 10 - POSITION %>">
         <span class="position"><%= POSITION %></span>
         <a href="#list" class="leadership_user"><span class="underline"><%= USERNAME %></span></a>
@@ -396,12 +394,12 @@ $APPLICATION->SetAdditionalCSS("/promo/instagram/css/styles.css");
         </a>
         <a href="#prizes/<%= PRIZE_ID %>" class="leadership_prize"><%= PRIZE %></a>
     </div>
-</script>-->
+</script>
 <script id="instaMainLeadershipTemplate" type="text/template"></script>
 
 <!---- ШАБЛОН фоток на главной странице ---->
 <script id="instaMainPhotosTemplate" type="text/template">
-    <img src="<%= THUMB %>" />
+    <a href="#feed"><img src="<%= THUMB %>" /></a>
 </script>
 
 <!---- ШАБЛОН ленты с постами ---->
